@@ -2,7 +2,7 @@ const UrlModel = require('../model/url.model');
 const crypto = require('crypto');
 
 const generateShortcode = () => {
-    return crypto.randomBytes(3).toString('hex'); // 6 characters (e.g., 'a1b2c3')
+    return crypto.randomBytes(3).toString('hex'); 
 };
 
 
@@ -15,13 +15,12 @@ const isShortcodeAvailable = async (shortcode) => {
 const createShortUrl = async ({ url, shortcode, validity }) => {
     const code = shortcode || generateShortcode();
 
-
     if (!(await isShortcodeAvailable(code))) {
         throw new Error('Shortcode already in use. Try a different one.');
     }
 
     const createdAt = new Date();
-    const expiry = new Date(createdAt.getTime() + (validity || 30) * 60000); // default 30 minutes
+    const expiry = new Date(createdAt.getTime() + (validity || 30) * 60000); 
 
     const newUrl = await UrlModel.create({
         originalUrl: url,
@@ -32,47 +31,8 @@ const createShortUrl = async ({ url, shortcode, validity }) => {
         clickAnalytics: [],
     });
 
-    return {
-        shortLink: `https://localhost:3000/${code}`, // Replace with your domain if hosted
-        expiry: newUrl.expiry.toISOString(),
-    };
+    return newUrl;
 };
-
-// Redirect: Get original URL by shortcode
-const getUrlByShortcode = async (shortcode) => {
-    const entry = await UrlModel.findOne({ shortcode });
-
-    if (!entry) {
-        throw new Error('Shortcode not found.');
-    }
-
-    // Check expiry
-    if (new Date() > entry.expiry) {
-        throw new Error('Short URL has expired.');
-    }
-
-    return entry;
-};
-
-
-// Update click stats
-const recordClick = async (shortcode, data) => {
-    const entry = await UrlModel.findOne({ shortcode });
-
-    if (!entry) {
-        throw new Error('Shortcode not found for click recording.');
-    }
-
-    entry.clickCount += 1;
-    entry.clickAnalytics.push({
-        timestamp: data.timestamp || new Date(),
-        referrer: data.referrer || 'unknown',
-        location: data.location || 'unknown',
-    });
-
-    await entry.save();
-};
-
 
 // Get stats for a shortcode
 const getStatsByShortcode = async (shortcode) => {
@@ -86,13 +46,10 @@ const getStatsByShortcode = async (shortcode) => {
         url: entry.originalUrl,
         createdAt: entry.createdAt,
         expiry: entry.expiry,
-        clicks: entry.clickAnalytics
+        clicks: entry.clickAnalytics || []
     };
 };
-
 module.exports = {
     createShortUrl,
-    getUrlByShortcode,
-    recordClick,
     getStatsByShortcode,
 };
