@@ -1,6 +1,6 @@
 # 🔗 URL Shortener Microservice
 
-A production-grade HTTP URL Shortener microservice built for the **Affordmed Backend Campus Hiring Test**. This service provides efficient URL shortening with custom shortcodes, analytics tracking, and automatic expiration handling.
+A production-grade HTTP URL Shortener microservice built for the **Backend Campus Hiring Test**. This service provides efficient URL shortening with custom shortcodes, analytics tracking, and automatic expiration handling.
 
 ## Features
 
@@ -57,7 +57,7 @@ A production-grade HTTP URL Shortener microservice built for the **Affordmed Bac
 ### Prerequisites
 - Node.js (v14 or higher)
 - MongoDB instance
-- Affordmed credentials
+
 
 ### Quick Start
 
@@ -88,14 +88,14 @@ PORT=3000
 # Database Configuration
 MONGO_DB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/database_name
 
-# Affordmed Integration (Required for hiring test)
-CLIENT_ID=your_affordmed_client_id
-CLIENT_SECRET=your_affordmed_client_secret
-ACCESS_CODE=your_affordmed_access_code
+# Integration (Required for hiring test)
+CLIENT_ID=your__client_id
+CLIENT_SECRET=your__client_secret
+ACCESS_CODE=your__access_code
 EMAIL=your_registered_email
 NAME=YourName
 ROLL_NO=your_roll_number
-AFFORDMED_AUTH_TOKEN=your_jwt_bearer_token
+AUTH_TOKEN=your_jwt_bearer_token
 ```
 
 ## 📡 API Reference
@@ -180,7 +180,7 @@ Retrieves comprehensive analytics for a shortened URL.
 - **Request Logging**: All API requests logged
 - **Error Tracking**: Comprehensive error logging
 - **Performance Metrics**: Response time tracking
-- **Affordmed Integration**: Centralized log management
+- **Integration**: Centralized log management
 
 ---
 
